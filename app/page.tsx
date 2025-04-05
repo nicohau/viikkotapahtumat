@@ -5,10 +5,12 @@ import WeekManager from "@/assets/ui/client/weekmanager";
 import { getWeekNumber } from "@/assets/ui/client/weekmanager";
 
 export default function Page() {
+	// Getting next monday
+	let nextMonday = new Date();
+	nextMonday.setDate(new Date().getDate() + ((8 - new Date().getDay()) % 7));
+
 	// Defaults to next monday
-	const [week, setWeek] = useState<Date>(
-		new Date(new Date().getTime() + (8 - new Date().getDay()) * 24 * 60 * 60 * 1000)
-	);
+	const [week, setWeek] = useState<Date>(nextMonday);
 
 	return (
 		<>
