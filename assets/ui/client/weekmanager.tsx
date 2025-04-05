@@ -6,7 +6,7 @@ interface EventFormData {
 	id: number;
 	name_fi: string;
 	name_en?: string;
-	location_fi: string;
+	location_fi?: string;
 	location_en?: string;
 	day: number;
 	start_time: string;
@@ -75,6 +75,20 @@ function WeekList({
 					}}>
 					{lang === "fi" ? "FI / en" : "EN / fi"}
 				</button>
+				{editMode && (
+					<button
+						className={`${styles.manage_button} ${styles.delete_all}`}
+						onClick={() => {
+							// Clear all events
+							if (confirm("Haluatko varmasti poistaa kaikki tapahtumat?")) {
+								localStorage.setItem("events", JSON.stringify([]));
+								setEventList([]);
+								setEditMode(!editMode);
+							}
+						}}>
+						Poista kaikki tapahtumat
+					</button>
+				)}
 			</div>
 			{Object.entries(
 				eventList.reduce((acc, event) => {
@@ -133,11 +147,14 @@ function WeekList({
 										<em>
 											{`${event.start_time}${
 												event.end_time ? `→${event.end_time}` : ""
-											} @${
-												lang === "fi"
-													? event.location_fi
-													: event.location_en || event.location_fi
 											}`}
+											{event.location_fi
+												? ` @${
+														lang === "fi"
+															? event.location_fi
+															: event.location_en || event.location_fi
+												  }`
+												: ""}
 										</em>{" "}
 										{event.signup
 											? lang === "fi"
@@ -239,7 +256,6 @@ function WeekForm({
 						type='text'
 						id='location_fi'
 						name='location_fi'
-						required
 					/>
 				</div>
 				<div className={styles.form_group}>

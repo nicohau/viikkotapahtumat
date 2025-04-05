@@ -28,6 +28,11 @@
 	margin-right: 0.5rem;
 }
 
+.weeklist .manage_button.delete_all {
+	background: #ab0022;
+	color: #fff;
+}
+
 .weeklist .deleteButton {
 	background: #ab0022;
 	color: #fff;
