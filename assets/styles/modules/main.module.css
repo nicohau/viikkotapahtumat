@@ -1,0 +1,194 @@
+.centerer {
+	width: 100%;
+	max-width: 960px;
+	margin: 0 auto;
+}
+
+.header {
+	background-color: var(--white);
+	height: 3rem;
+	padding: 0 2rem;
+
+	@media screen and (max-width: 768px) {
+		padding: 0 1rem;
+	}
+}
+
+.header .centerer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 100%;
+}
+
+.header h1 {
+	font-size: 1.35rem;
+	font-weight: 800;
+	color: var(--brand);
+	line-height: 100%;
+}
+
+.week_container {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	justify-content: center;
+	gap: 0.125rem;
+	height: 100%;
+	position: relative;
+	isolation: isolate;
+}
+
+.week_container:hover {
+	cursor: pointer;
+}
+
+.week_container::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: -1rem;
+	bottom: 0;
+	right: -1rem;
+	background-color: rgb(0 0 0 / 0.1);
+	opacity: 0;
+	z-index: -1;
+	transition: 75ms;
+}
+
+.week_container:hover::after {
+	opacity: 1;
+}
+
+.week_container .week {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 0.25rem;
+	font-size: 0.9rem;
+	font-weight: 500;
+}
+
+.week_container .week span {
+	font-size: 1.25rem;
+	font-weight: 800;
+}
+
+.week_container .week_date {
+	font-size: 0.8rem;
+	font-weight: 400;
+	color: var(--gray60);
+}
+
+.week_modal {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 2rem;
+}
+
+.week_modal__background {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgb(0 0 0 / 0.1);
+	backdrop-filter: blur(5px);
+}
+
+.week_modal__content {
+	background-color: var(--white);
+	width: 100%;
+	max-width: 480px;
+	padding: 2rem;
+	border-radius: 1rem;
+	box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+	z-index: 2;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	align-items: center;
+}
+
+.week_modal__content h2 {
+	font-size: 1.5rem;
+	font-weight: 800;
+	color: var(--brand);
+}
+
+.week_modal__content p {
+	font-size: 1rem;
+	font-weight: 500;
+	color: var(--gray80);
+	text-align: center;
+	line-height: 1.25;
+
+	@media screen and (max-width: 768px) {
+		font-size: 0.9rem;
+	}
+}
+
+.week_modal__content .input_wrapper {
+	width: 100%;
+	max-width: 300px;
+	font-size: 1rem;
+	font-weight: 500;
+	color: var(--gray80);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 2rem;
+}
+
+.week_modal__content .input_wrapper input {
+	padding: 0.5rem 1rem;
+	border: none;
+	background-color: transparent;
+	font-size: 1rem;
+	font-weight: 500;
+	color: var(--gray80);
+	border-radius: 0.5rem;
+	border: 1px solid var(--gray20);
+	background-color: var(--white);
+	transition: all 150ms ease-in-out;
+}
+
+.week_modal__content input:focus {
+	outline: none;
+	border-color: var(--brand);
+	box-shadow: 0 0 0 2px rgb(0 0 0 / 0.1);
+}
+
+.week_modal__content .input_wrapper .input_week {
+	font-size: 1.25rem;
+	font-weight: 700;
+}
+
+.week_modal__content button {
+	width: 100%;
+	max-width: 300px;
+	padding: 0.5rem 1rem;
+	border-radius: 0.5rem;
+	border: none;
+	background-color: var(--brand);
+	color: var(--white);
+	font-size: 1rem;
+	font-weight: 500;
+	cursor: pointer;
+	transition: all 150ms ease-in-out;
+}
+
+.main {
+	padding: 2rem;
+
+	@media screen and (max-width: 768px) {
+		padding: 1rem;
+	}
+}

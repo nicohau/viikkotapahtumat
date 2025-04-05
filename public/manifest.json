@@ -1,0 +1,17 @@
+{
+  "short_name": "Story creator",
+  "name": "Story creator - Viikon tapahtumat",
+  "description": "Viikon tapahtumat is a web application that allows users to create an instagtam story with the upcoming weeks events.",
+  "icons": [
+    {
+      "src": "/images/app_icon.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ],
+  "start_url": "/",
+  "id": "?webapp",
+  "display": "standalone",
+  "theme_color": "#f5f5f5",
+  "background_color": "#f5f5f5"
+}

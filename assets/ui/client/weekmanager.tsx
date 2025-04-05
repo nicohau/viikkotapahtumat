@@ -1,0 +1,319 @@
+"use client";
+import { useState } from "react";
+import styles from "@/assets/styles/modules/weekmanager.module.css";
+
+interface EventFormData {
+	id: number;
+	name_fi: string;
+	name_en?: string;
+	location_fi: string;
+	location_en?: string;
+	day: number;
+	start_time: string;
+	end_time?: string;
+	signup: boolean;
+}
+
+export default function WeekManager({ week }: { week: Date }) {
+	// Check if there is "events" array in local storage
+	const events = localStorage.getItem("events");
+	if (!events) {
+		localStorage.setItem("events", JSON.stringify([]));
+	}
+	const [eventList, setEventList] = useState<EventFormData[]>(events ? JSON.parse(events) : []);
+
+	return (
+		<div className={styles.weekmanager}>
+			<WeekForm
+				setEventList={setEventList}
+				week={week}
+			/>
+			<WeekList
+				eventList={eventList}
+				setEventList={setEventList}
+				week={week}
+			/>
+		</div>
+	);
+}
+
+function WeekList({
+	eventList,
+	setEventList,
+	week,
+}: {
+	eventList: EventFormData[];
+	setEventList: React.Dispatch<React.SetStateAction<EventFormData[]>>;
+	week: Date;
+}) {
+	const [editMode, setEditMode] = useState(false);
+	const [lang, setLang] = useState("fi");
+
+	return (
+		<div className={styles.weeklist}>
+			<div>
+				<button
+					className={styles.manage_button}
+					onClick={() => setEditMode(!editMode)}>
+					{editMode ? "Valmis" : "Muokkaa"}
+				</button>
+				<button
+					className={styles.manage_button}
+					onClick={() => {
+						// Change lantuage
+						if (lang === "fi") {
+							setLang("en");
+						} else {
+							setLang("fi");
+						}
+					}}>
+					{lang === "fi" ? "FI / en" : "EN / fi"}
+				</button>
+			</div>
+			{Object.entries(
+				eventList.reduce((acc, event) => {
+					(acc[event.day] = acc[event.day] || []).push(event);
+					return acc;
+				}, {} as Record<number, EventFormData[]>)
+			)
+				// Convert the grouped events into an array for rendering
+				.sort(([dayA], [dayB]) => parseInt(dayA) - parseInt(dayB))
+				.map(([day, events]) => (
+					<p
+						key={day}
+						className={styles.dayGroup}>
+						<strong>
+							{lang === "fi"
+								? [
+										"Maanantai",
+										"Tiistai",
+										"Keskiviikko",
+										"Torstai",
+										"Perjantai",
+										"Lauantai",
+										"Sunnuntai",
+								  ][parseInt(day)]
+								: [
+										"Monday",
+										"Tuesday",
+										"Wednesday",
+										"Thursday",
+										"Friday",
+										"Saturday",
+										"Sunday",
+								  ][parseInt(day)]}{" "}
+							{/* week, is the first day of the selected week. corresponding to day 0 */}
+							{new Date(
+								week.getTime() + parseInt(day) * 24 * 60 * 60 * 1000
+							).toLocaleDateString("fi-FI", {
+								day: "numeric",
+								month: "numeric",
+							})}
+						</strong>
+						{events
+							.sort((a, b) => {
+								const aTime = new Date(`1970-01-01T${a.start_time}:00`).getTime();
+								const bTime = new Date(`1970-01-01T${b.start_time}:00`).getTime();
+								return aTime - bTime;
+							})
+							.map((event) => (
+								<>
+									<br />
+									<span key={event.id}>
+										{lang === "fi"
+											? event.name_fi
+											: event.name_en || event.name_fi}
+										,{" "}
+										<em>
+											{`${event.start_time}${
+												event.end_time ? `→${event.end_time}` : ""
+											} @${
+												lang === "fi"
+													? event.location_fi
+													: event.location_en || event.location_fi
+											}`}
+										</em>{" "}
+										{event.signup
+											? lang === "fi"
+												? "(Ilmoittautuneille)"
+												: "(Signed up only)"
+											: ""}
+									</span>
+									{editMode && (
+										<button
+											className={styles.deleteButton}
+											onClick={() => {
+												const updatedEvents = eventList.filter(
+													(e) => e.id !== event.id
+												);
+												localStorage.setItem(
+													"events",
+													JSON.stringify(updatedEvents)
+												);
+												setEventList(updatedEvents);
+											}}>
+											Poista
+										</button>
+									)}
+								</>
+							))}
+					</p>
+				))}
+		</div>
+	);
+}
+
+function WeekForm({
+	week,
+	setEventList,
+}: {
+	week: Date;
+	setEventList: React.Dispatch<React.SetStateAction<EventFormData[]>>;
+}) {
+	// Add event to local storage
+	const addEvent = (event: EventFormData) => {
+		setEventList((prevEvents) => {
+			const updatedEvents = [...prevEvents, event];
+			localStorage.setItem("events", JSON.stringify(updatedEvents));
+			return updatedEvents;
+		});
+	};
+
+	// Handle form submission
+	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		const formData = event.currentTarget;
+		const data: EventFormData = {
+			id: Date.now(),
+			name_fi: formData.name_fi.value,
+			name_en: formData.name_en.value,
+			location_fi: formData.location_fi.value,
+			location_en: formData.location_en.value,
+			day: parseInt(formData.start_day.value),
+			start_time: formData.start_time.value,
+			end_time: formData.end_time.value,
+			signup: formData.signup.checked,
+		};
+		console.log(data);
+
+		// Add event to local storage
+		addEvent(data);
+
+		// Reset form
+		event.currentTarget.reset();
+	};
+
+	return (
+		<form
+			onSubmit={handleSubmit}
+			className={styles.event_form}>
+			<div className={`${styles.form_row}`}>
+				<div className={styles.form_group}>
+					<label htmlFor='name_fi'>Nimi (fi):</label>
+					<input
+						type='text'
+						id='name_fi'
+						name='name_fi'
+						required
+					/>
+				</div>
+				<div className={styles.form_group}>
+					<label htmlFor='name_en'>Nimi (en):</label>
+					<input
+						type='text'
+						id='name_en'
+						name='name_en'
+					/>
+				</div>
+			</div>
+			<div className={`${styles.form_row}`}>
+				<div className={styles.form_group}>
+					<label htmlFor='location_fi'>Sijainti (fi):</label>
+					<input
+						type='text'
+						id='location_fi'
+						name='location_fi'
+						required
+					/>
+				</div>
+				<div className={styles.form_group}>
+					<label htmlFor='location_en'>Sijainti (en):</label>
+					<input
+						type='text'
+						id='location_en'
+						name='location_en'
+					/>
+				</div>
+			</div>
+			<div className={`${styles.form_row}`}>
+				<div className={styles.form_group}>
+					<label htmlFor='start_day'>Päivä:</label>
+					<select
+						name='start_day'
+						id='start_day'>
+						{[0, 1, 2, 3, 4, 5, 6].map((day) => (
+							<option
+								key={day}
+								value={day}>
+								{
+									[
+										"Maanantai",
+										"Tiistai",
+										"Keskiviikko",
+										"Torstai",
+										"Perjantai",
+										"Lauantai",
+										"Sunnuntai",
+									][day]
+								}{" "}
+								{new Date(
+									week.getTime() + day * 24 * 60 * 60 * 1000
+								).toLocaleDateString("fi-FI", {
+									day: "numeric",
+									month: "numeric",
+								})}
+							</option>
+						))}
+					</select>
+				</div>
+				<div className={styles.form_group}>
+					<label htmlFor='start_time'>Alkaa:</label>
+					<input
+						type='time'
+						id='start_time'
+						name='start_time'
+						required
+					/>
+				</div>
+			</div>
+			<div className={`${styles.form_row}`}>
+				<div className={styles.form_group}>
+					<label htmlFor='end_time'>Loppuu:</label>
+					<input
+						type='time'
+						id='end_time'
+						name='end_time'
+					/>
+				</div>
+				<div className={styles.form_group}>
+					<label htmlFor='signup'>Ilmoittautuneille:</label>
+					<input
+						type='checkbox'
+						id='signup'
+						name='signup'
+					/>
+				</div>
+			</div>
+			<button type='submit'>Tallenna tapahtuma</button>
+		</form>
+	);
+}
+
+// Based on Youp Bernoulli's code on https://stackoverflow.com/a/6117889 Thanks! <3
+export function getWeekNumber(date: Date): number {
+	const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+	const dayNum = d.getUTCDay() || 7;
+	d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+	const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+	return Math.ceil(((d.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
+}
