@@ -17,7 +17,19 @@ interface EventFormData {
 }
 
 export default function WeekManager({ week }: { week: Date }) {
-	const [eventList, setEventList] = useState<EventFormData[]>(events);
+	const [eventList, setEventList] = useState<EventFormData[]>([]);
+
+	useEffect(() => {
+		// Fetch events from the server
+		fetch("/api")
+			.then((response) => response.json())
+			.then((data) => {
+				setEventList(data);
+			})
+			.catch((error) => {
+				console.error("Error fetching events:", error);
+			});
+	}, []);
 
 	return (
 		<div className={styles.weekmanager}>
