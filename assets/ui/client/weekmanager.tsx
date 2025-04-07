@@ -257,17 +257,24 @@ function EventEditForm({
 
 		// Update event data
 		setEventList((prevEvents) => {
-			const updatedEvents = [...prevEvents, event];
-			return updatedEvents;
+			// Find the index of the event to update
+			const index = prevEvents.findIndex((ev) => ev.id === event.id);
+			if (index !== -1) {
+				// Create a new array with the updated event
+				const updatedEvents = [...prevEvents];
+				updatedEvents[index] = { ...formData };
+				return updatedEvents;
+			}
+			return prevEvents;
 		});
 
 		// Sending event to api
-		fetch("/api", {
+		fetch("/api/" + event.id, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify(event),
+			body: JSON.stringify(formData),
 		})
 			.then((response) => response.json())
 			.then((data) => {

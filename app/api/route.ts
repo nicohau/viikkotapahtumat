@@ -20,15 +20,7 @@ export async function POST(request: Request) {
 	try {
 		const events = JSON.parse(data);
 
-		const eventIndex = events.findIndex((event: any) => event.id === id);
-
-		if (eventIndex !== -1) {
-			// Update existing event
-			events[eventIndex] = { id, ...eventData };
-		} else {
-			// Add new event
-			events.push({ id, ...eventData });
-		}
+		events.push({ id, ...eventData });
 
 		fs.writeFileSync(eventsFilePath, JSON.stringify(events, null, 2), "utf-8");
 
