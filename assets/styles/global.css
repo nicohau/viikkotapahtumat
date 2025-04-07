@@ -29,6 +29,5 @@ html {
 body {
 	background: var(--background);
 	color: var(--black);
-	overflow: hidden;
 	font-family: "Manrope", sans-serif;
 }

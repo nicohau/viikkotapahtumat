@@ -1,0 +1,134 @@
+[
+  {
+    "id": 1744022906273,
+    "name_fi": "Koodikerho & Matikkapaja",
+    "name_en": "Code Club & Maths Workshop",
+    "location_fi": "Agora K124A",
+    "location_en": "",
+    "day": 0,
+    "start_time": "16:00",
+    "end_time": "",
+    "signup": false
+  },
+  {
+    "id": 1744023010793,
+    "name_fi": "Hallituspäivystys",
+    "name_en": "Board Member at the Office",
+    "location_fi": "toimisto",
+    "location_en": "office",
+    "day": 1,
+    "start_time": "13:00",
+    "end_time": "15:00",
+    "signup": false
+  },
+  {
+    "id": 1744023046307,
+    "name_fi": "Teekkariwappu: Sporttimaanantai",
+    "name_en": "Teekkariwappu: Sports Monday",
+    "location_fi": "",
+    "location_en": "",
+    "day": 0,
+    "start_time": "16:00",
+    "end_time": "",
+    "signup": false
+  },
+  {
+    "id": 1744023086745,
+    "name_fi": "Teekkariwappu: Lavatanssi",
+    "name_en": "Teekkariwappu: Ballroom Dancing",
+    "location_fi": "Q-talo",
+    "location_en": "",
+    "day": 1,
+    "start_time": "17:00",
+    "end_time": "20:00",
+    "signup": false
+  },
+  {
+    "id": 1744023111550,
+    "name_fi": "Ruutukerho",
+    "name_en": "TV Club",
+    "location_fi": "toimisto",
+    "location_en": "office",
+    "day": 1,
+    "start_time": "18:00",
+    "end_time": "",
+    "signup": false
+  },
+  {
+    "id": 1744023160136,
+    "name_fi": "Teekkariwappu: Polkuauto Grand Prix",
+    "name_en": "Teekkariwappu: Pedal Car Grand Prix",
+    "location_fi": "Varvintori",
+    "location_en": "",
+    "day": 2,
+    "start_time": "17:00",
+    "end_time": "22:00",
+    "signup": false
+  },
+  {
+    "id": 1744023220249,
+    "name_fi": "Teekkariwappu: Vauhtibileet 3.0",
+    "name_en": "Teekkariwappu: Speed Party 3.0",
+    "location_fi": "Vegas",
+    "location_en": "",
+    "day": 2,
+    "start_time": "22:00",
+    "end_time": "",
+    "signup": false
+  },
+  {
+    "id": 1744023276544,
+    "name_fi": "Teekkariwappu: Karaokeappro",
+    "name_en": "",
+    "location_fi": "Turun karaokebaarit",
+    "location_en": "Turku karaokebars",
+    "day": 3,
+    "start_time": "16:00",
+    "end_time": "22:00",
+    "signup": false
+  },
+  {
+    "id": 1744023303295,
+    "name_fi": "Teekkariwappu: Pönkelireivit",
+    "name_en": "",
+    "location_fi": "",
+    "location_en": "",
+    "day": 3,
+    "start_time": "19:00",
+    "end_time": "",
+    "signup": true
+  },
+  {
+    "id": 1744023354436,
+    "name_fi": "Teekkariwappu: Pubivisa & VOIMAtunti",
+    "name_en": "Teekkariwappu: Pub Quiz & POWERhour",
+    "location_fi": "Q-talo",
+    "location_en": "",
+    "day": 4,
+    "start_time": "18:30",
+    "end_time": "",
+    "signup": false
+  },
+  {
+    "id": 1744023499579,
+    "name_fi": "Teekkariwappu: Aamusitsit",
+    "name_en": "Teekkariwappu: Morningsitz",
+    "location_fi": "Q-talo",
+    "location_en": "",
+    "day": 5,
+    "start_time": "09:00",
+    "end_time": "15:00",
+    "signup": true
+  },
+  {
+    "id": 1744023982884,
+    "name_fi": "Teekkariwappu: Wappusillis",
+    "name_en": "Teekkariwappu: Wappu Sillis",
+    "location_fi": "Q-talo",
+    "location_en": "",
+    "day": 6,
+    "start_time": "13:00",
+    "end_time": "18:00",
+    "signup": true
+  }
+]
