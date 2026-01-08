@@ -1,8 +1,8 @@
-"use client";
-import { useState } from "react";
-import styles from "@/assets/styles/modules/main.module.css";
-import WeekManager from "@/assets/ui/client/weekmanager";
-import { getWeekNumber } from "@/assets/ui/client/weekmanager";
+'use client';
+import { useState } from 'react';
+import styles from '@/assets/styles/modules/main.module.css';
+import WeekManager from '@/assets/ui/client/weekmanager';
+import { getWeekNumber } from '@/assets/ui/client/weekmanager';
 
 export default function Page() {
 	// Getting next monday
@@ -16,7 +16,7 @@ export default function Page() {
 		<>
 			<header className={styles.header}>
 				<div className={`${styles.centerer}`}>
-					<h1 className={styles.title}>Story masiina</h1>
+					<h1 className={styles.title}>* Tapahtuma masiina</h1>
 					<WeekDisplay
 						week={week}
 						setWeek={setWeek}
@@ -45,18 +45,15 @@ const WeekDisplay = ({ week, setWeek }: { week: Date; setWeek: (date: Date) => v
 					<span>{getWeekNumber(week)}</span>
 				</p>
 				<p className={styles.week_date}>
-					{week.toLocaleDateString("fi-FI", {
-						month: "2-digit",
-						day: "2-digit",
+					{week.toLocaleDateString('fi-FI', {
+						month: '2-digit',
+						day: '2-digit',
 					})}
-					{" - "}
-					{new Date(week.getTime() + 6 * 24 * 60 * 60 * 1000).toLocaleDateString(
-						"fi-FI",
-						{
-							month: "2-digit",
-							day: "2-digit",
-						}
-					)}
+					{' - '}
+					{new Date(week.getTime() + 6 * 24 * 60 * 60 * 1000).toLocaleDateString('fi-FI', {
+						month: '2-digit',
+						day: '2-digit',
+					})}
 				</p>
 			</div>
 			{modalOpen && (
@@ -67,26 +64,14 @@ const WeekDisplay = ({ week, setWeek }: { week: Date; setWeek: (date: Date) => v
 					/>
 					<div className={`${styles.week_modal__content}`}>
 						<h2>Vaihda viikkoa</h2>
-						<p>
-							Valitse jokin päivä ja järjestelmä asettaa automaattisesti päivämäärän
-							sen viikon maanantaille.
-						</p>
+						<p>Valitse jokin päivä ja järjestelmä asettaa automaattisesti päivämäärän sen viikon maanantaille.</p>
 						<div className={`${styles.input_wrapper}`}>
 							<input
 								type='date'
-								value={week.toISOString().split("T")[0]}
+								value={week.toISOString().split('T')[0]}
 								onChange={(e) =>
 									// Since the user can select a date that is not a monday, we need to set the week to the monday of that week
-									setWeek(
-										new Date(
-											new Date(e.target.value).getTime() +
-												(1 - new Date(e.target.value).getDay()) *
-													24 *
-													60 *
-													60 *
-													1000
-										)
-									)
+									setWeek(new Date(new Date(e.target.value).getTime() + (1 - new Date(e.target.value).getDay()) * 24 * 60 * 60 * 1000))
 								}
 							/>
 							<div className={`${styles.input_week}`}>vko {getWeekNumber(week)}</div>
