@@ -1,7 +1,14 @@
+.card {
+	background: var(--foreground);
+	padding: 1rem;
+	border-radius: 1rem;
+	box-shadow: 0 0 0 1px #0e3f7e0f, 0 1px 1px -0.5px #2a334608, 0 2px 2px -1px #2a33460a, 0 3px 3px -1.5px #2a33460a, 0 5px 5px -2.5px #2a334608, 0 10px 10px -5px #2a334608, 0 24px 24px -8px #2a334608;
+}
+
 .weekmanager {
 	display: flex;
 	flex-direction: column;
-	gap: 2rem;
+	gap: 1rem;
 }
 
 .weekmanager .weekmanager__header {
@@ -17,8 +24,8 @@
 }
 
 .weeklist .manage_button {
-	background: var(--brand);
-	color: #fff;
+	background: var(--secondary);
+	color: var(--secondary-content);
 	padding: 0.35rem 1rem;
 	border: none;
 	border-radius: 0.5rem;
@@ -28,14 +35,26 @@
 	margin-right: 0.5rem;
 }
 
+.weeklist .copyButton {
+	width: fit-content;
+	background: var(--primary);
+	color: var(--white);
+	padding: 0.35rem 1rem;
+	border: none;
+	border-radius: 0.5rem;
+	font-size: 0.9rem;
+	font-weight: 500;
+	cursor: pointer;
+}
+
 .weeklist .manage_button.delete_all {
-	background: #ab0022;
-	color: #fff;
+	background: var(--error);
+	color: var(--white);
 }
 
 .weeklist .deleteButton {
-	background: #ab0022;
-	color: #fff;
+	background: var(--error);
+	color: var(--white);
 	padding: 0.125rem 0.51rem;
 	border: none;
 	border-radius: 0.5rem;
@@ -46,8 +65,8 @@
 }
 
 .weeklist .editButton {
-	background: var(--brand);
-	color: #fff;
+	background: var(--secondary);
+	color: var(--secondary-content);
 	padding: 0.125rem 0.51rem;
 	border: none;
 	border-radius: 0.5rem;
@@ -55,11 +74,16 @@
 	font-weight: 500;
 	cursor: pointer;
 	margin-left: 0.5rem;
-	margin-top: 0.25rem;
 }
 
 .weeklist p {
 	line-height: normal;
+}
+
+.eventItem {
+	border: 1px solid var(--border);
+	padding: 0.5rem 1rem;
+	border-radius: 0.5rem;
 }
 
 .event_form {
@@ -101,8 +125,9 @@
 .event_form .form_row .form_group select {
 	height: 2.25rem;
 	padding: 0 1rem;
-	background: #fff;
-	border: 1px solid var(--gray30);
+	color: var(--copy);
+	background: var(--foreground);
+	border: 1px solid var(--border);
 	border-radius: 0.5rem;
 	font-size: 1rem;
 }
@@ -114,7 +139,7 @@
 	box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
 }
 
-.event_form .form_row .form_group input[type="checkbox"] {
+.event_form .form_row .form_group input[type='checkbox'] {
 	width: 1.25rem;
 	height: 2.25rem;
 }
@@ -122,8 +147,8 @@
 .event_form button {
 	width: 100%;
 	height: 2.5rem;
-	background: var(--brand);
-	color: #fff;
+	background: var(--primary);
+	color: var(--white);
 	border: none;
 	border-radius: 0.5rem;
 	font-size: 1rem;
@@ -135,8 +160,9 @@
 	display: flex;
 	flex-direction: column;
 	gap: 1em;
-	padding: 1rem;
-	background: #fff;
+	margin-top: 1rem;
+	margin-bottom: 0.5rem;
+	background: var(--foreground);
 	border-radius: 0.5rem;
 }
 
@@ -172,8 +198,9 @@
 .edit_form .form_row .form_group select {
 	height: 2rem;
 	padding: 0 0.75rem;
-	background: #fff;
-	border: 1px solid var(--gray30);
+	color: var(--copy);
+	background: var(--foreground);
+	border: 1px solid var(--border);
 	border-radius: 0.5rem;
 	font-size: 0.9rem;
 }
@@ -185,7 +212,7 @@
 	box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
 }
 
-.edit_form .form_row .form_group input[type="checkbox"] {
+.edit_form .form_row .form_group input[type='checkbox'] {
 	width: 1.25rem;
 	height: 2rem;
 }
@@ -200,8 +227,8 @@
 .edit_form .form_buttons button {
 	width: 100%;
 	height: 2.5rem;
-	background: var(--brand);
-	color: #fff;
+	background: var(--primary);
+	color: var(--white);
 	border: none;
 	border-radius: 0.5rem;
 	font-size: 1rem;
@@ -210,6 +237,6 @@
 }
 
 .edit_form .form_buttons button.cancel {
-	background: #ab0022;
-	color: #fff;
+	background: var(--error);
+	color: var(--white);
 }
