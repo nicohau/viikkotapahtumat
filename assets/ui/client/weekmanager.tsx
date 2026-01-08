@@ -1,8 +1,8 @@
-"use client";
-import { useState, useEffect } from "react";
-import styles from "@/assets/styles/modules/weekmanager.module.css";
+'use client';
+import { useState, useEffect } from 'react';
+import styles from '@/assets/styles/modules/weekmanager.module.css';
 
-import events from "@/assets/data/events.json";
+import events from '@/assets/data/events.json';
 
 interface EventFormData {
 	id: number;
@@ -21,43 +21,85 @@ export default function WeekManager({ week }: { week: Date }) {
 
 	useEffect(() => {
 		// Fetch events from the server
-		fetch("/api")
+		fetch('/api')
 			.then((response) => response.json())
 			.then((data) => {
 				setEventList(data);
 			})
 			.catch((error) => {
-				console.error("Error fetching events:", error);
+				console.error('Error fetching events:', error);
 			});
 	}, []);
 
 	return (
 		<div className={styles.weekmanager}>
-			<WeekForm
-				setEventList={setEventList}
-				week={week}
-			/>
-			<WeekList
-				eventList={eventList}
-				setEventList={setEventList}
-				week={week}
-			/>
+			<div className={styles.card}>
+				<WeekForm
+					setEventList={setEventList}
+					week={week}
+				/>
+			</div>
+
+			<div className={styles.card}>
+				<WeekList
+					eventList={eventList}
+					setEventList={setEventList}
+					week={week}
+				/>
+			</div>
 		</div>
 	);
 }
 
-function WeekList({
-	eventList,
-	setEventList,
-	week,
-}: {
-	eventList: EventFormData[];
-	setEventList: React.Dispatch<React.SetStateAction<EventFormData[]>>;
-	week: Date;
-}) {
+function WeekList({ eventList, setEventList, week }: { eventList: EventFormData[]; setEventList: React.Dispatch<React.SetStateAction<EventFormData[]>>; week: Date }) {
 	const [editMode, setEditMode] = useState(false);
-	const [lang, setLang] = useState("fi");
+	const [lang, setLang] = useState('fi');
 	const [editEvent, setEditEvent] = useState<number | null>(null);
+
+	const copyFormattedText = () => {
+		const groupedEvents = eventList.reduce((acc, event) => {
+			(acc[event.day] = acc[event.day] || []).push(event);
+			return acc;
+		}, {} as Record<number, EventFormData[]>);
+
+		const formattedText = Object.entries(groupedEvents)
+			.sort(([dayA], [dayB]) => parseInt(dayA) - parseInt(dayB))
+			.map(([day, events]) => {
+				const dayName = lang === 'fi' ? ['Maanantai', 'Tiistai', 'Keskiviikko', 'Torstai', 'Perjantai', 'Lauantai', 'Sunnuntai'][parseInt(day)] : ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'][parseInt(day)];
+				const date = new Date(week.getTime() + parseInt(day) * 24 * 60 * 60 * 1000).toLocaleDateString('fi-FI', {
+					day: 'numeric',
+					month: 'numeric',
+				});
+
+				const eventTexts = events
+					.sort((a, b) => {
+						const aTime = new Date(`1970-01-01T${a.start_time}:00`).getTime();
+						const bTime = new Date(`1970-01-01T${b.start_time}:00`).getTime();
+						return aTime - bTime;
+					})
+					.map((event) => {
+						const name = lang === 'fi' ? event.name_fi : event.name_en || event.name_fi;
+						const location = event.location_fi ? ` @${lang === 'fi' ? event.location_fi : event.location_en || event.location_fi}` : '';
+						const time = `${event.start_time}${event.end_time ? `→${event.end_time}` : ''}`;
+						const signup = event.signup ? ` ${lang === 'fi' ? '(Ilmoittautuneille)' : '(Signed up only)'}` : '';
+						return `${name}, ${time}${location}${signup}`;
+					})
+					.join('\n');
+
+				return `${dayName} ${date}\n${eventTexts}`;
+			})
+			.join('\n\n');
+
+		navigator.clipboard
+			.writeText(formattedText)
+			.then(() => {
+				alert('Teksti kopioitu leikepöydälle!');
+			})
+			.catch((error) => {
+				console.error('Error copying text:', error);
+				alert('Virhe kopioinnissa');
+			});
+	};
 
 	return (
 		<div className={styles.weeklist}>
@@ -65,38 +107,38 @@ function WeekList({
 				<button
 					className={styles.manage_button}
 					onClick={() => setEditMode(!editMode)}>
-					{editMode ? "Valmis" : "Muokkaa"}
+					{editMode ? 'Valmis' : 'Muokkaa'}
 				</button>
 				<button
 					className={styles.manage_button}
 					onClick={() => {
 						// Change lantuage
-						if (lang === "fi") {
-							setLang("en");
+						if (lang === 'fi') {
+							setLang('en');
 						} else {
-							setLang("fi");
+							setLang('fi');
 						}
 					}}>
-					{lang === "fi" ? "FI / en" : "EN / fi"}
+					{lang === 'fi' ? 'FI / en' : 'EN / fi'}
 				</button>
 				{editMode && (
 					<button
 						className={`${styles.manage_button} ${styles.delete_all}`}
 						onClick={() => {
 							// Clear all events
-							if (confirm("Haluatko varmasti poistaa kaikki tapahtumat?")) {
-								fetch("/api", {
-									method: "DELETE",
+							if (confirm('Haluatko varmasti poistaa kaikki tapahtumat?')) {
+								fetch('/api', {
+									method: 'DELETE',
 									headers: {
-										"Content-Type": "application/json",
+										'Content-Type': 'application/json',
 									},
 								})
 									.then((response) => response.json())
 									.then((data) => {
-										console.log("Events deleted:", data);
+										console.log('Events deleted:', data);
 									})
 									.catch((error) => {
-										console.error("Error deleting events:", error);
+										console.error('Error deleting events:', error);
 									});
 								setEventList([]);
 								setEditMode(!editMode);
@@ -119,31 +161,10 @@ function WeekList({
 						key={day}
 						className={styles.dayGroup}>
 						<strong>
-							{lang === "fi"
-								? [
-										"Maanantai",
-										"Tiistai",
-										"Keskiviikko",
-										"Torstai",
-										"Perjantai",
-										"Lauantai",
-										"Sunnuntai",
-								  ][parseInt(day)]
-								: [
-										"Monday",
-										"Tuesday",
-										"Wednesday",
-										"Thursday",
-										"Friday",
-										"Saturday",
-										"Sunday",
-								  ][parseInt(day)]}{" "}
-							{/* week, is the first day of the selected week. corresponding to day 0 */}
-							{new Date(
-								week.getTime() + parseInt(day) * 24 * 60 * 60 * 1000
-							).toLocaleDateString("fi-FI", {
-								day: "numeric",
-								month: "numeric",
+							{lang === 'fi' ? ['Maanantai', 'Tiistai', 'Keskiviikko', 'Torstai', 'Perjantai', 'Lauantai', 'Sunnuntai'][parseInt(day)] : ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'][parseInt(day)]} {/* week, is the first day of the selected week. corresponding to day 0 */}
+							{new Date(week.getTime() + parseInt(day) * 24 * 60 * 60 * 1000).toLocaleDateString('fi-FI', {
+								day: 'numeric',
+								month: 'numeric',
 							})}
 						</strong>
 						{events
@@ -152,103 +173,93 @@ function WeekList({
 								const bTime = new Date(`1970-01-01T${b.start_time}:00`).getTime();
 								return aTime - bTime;
 							})
-							.map((event) => (
-								<>
-									<br />
-									<span key={event.id}>
-										{lang === "fi"
-											? event.name_fi
-											: event.name_en || event.name_fi}
-										,{" "}
-										<em>
-											{`${event.start_time}${
-												event.end_time ? `→${event.end_time}` : ""
-											}`}
-											{event.location_fi
-												? ` @${
-														lang === "fi"
-															? event.location_fi
-															: event.location_en || event.location_fi
-												  }`
-												: ""}
-										</em>{" "}
-										{event.signup
-											? lang === "fi"
-												? "(Ilmoittautuneille)"
-												: "(Signed up only)"
-											: ""}
-									</span>
-									{editMode && (
-										<>
-											<button
-												className={styles.editButton}
-												onClick={() => setEditEvent(event.id)}>
-												Muokkaa
-											</button>
-											<button
-												className={styles.deleteButton}
-												onClick={() => {
-													const updatedEvents = eventList.filter(
-														(e) => e.id !== event.id
-													);
-													// Removing event from file with api call
-													fetch("/api/" + event.id, {
-														method: "DELETE",
-														headers: {
-															"Content-Type": "application/json",
-														},
+							.map((event) =>
+								editMode ? (
+									<div
+										key={event.id}
+										className={styles.eventItem}>
+										<span>
+											{lang === 'fi' ? event.name_fi : event.name_en || event.name_fi},{' '}
+											<em>
+												{`${event.start_time}${event.end_time ? `→${event.end_time}` : ''}`}
+												{event.location_fi ? ` @${lang === 'fi' ? event.location_fi : event.location_en || event.location_fi}` : ''}
+											</em>{' '}
+											{event.signup ? (lang === 'fi' ? '(Ilmoittautuneille)' : '(Signed up only)') : ''}
+										</span>
+										<button
+											className={styles.editButton}
+											onClick={() => setEditEvent(event.id)}>
+											Muokkaa
+										</button>
+										<button
+											className={styles.deleteButton}
+											onClick={() => {
+												const updatedEvents = eventList.filter((e) => e.id !== event.id);
+												// Removing event from file with api call
+												fetch('/api/' + event.id, {
+													method: 'DELETE',
+													headers: {
+														'Content-Type': 'application/json',
+													},
+												})
+													.then((response) => response.json())
+													.then((data) => {
+														console.log('Event deleted:', data);
 													})
-														.then((response) => response.json())
-														.then((data) => {
-															console.log("Event deleted:", data);
-														})
-														.catch((error) => {
-															console.error(
-																"Error deleting event:",
-																error
-															);
-														});
-													setEventList(updatedEvents);
-												}}>
-												Poista
-											</button>
-											{editEvent === event.id && (
-												<div className={styles.editForm}>
-													<EventEditForm
-														event={event}
-														setEventList={setEventList}
-														onClose={() => setEditEvent(null)}
-													/>
-												</div>
-											)}
-										</>
-									)}
-								</>
-							))}
+													.catch((error) => {
+														console.error('Error deleting event:', error);
+													});
+												setEventList(updatedEvents);
+											}}>
+											Poista
+										</button>
+										{editEvent === event.id && (
+											<div className={styles.editForm}>
+												<EventEditForm
+													event={event}
+													setEventList={setEventList}
+													onClose={() => setEditEvent(null)}
+												/>
+											</div>
+										)}
+									</div>
+								) : (
+									<>
+										<br />
+										<span key={event.id}>
+											{lang === 'fi' ? event.name_fi : event.name_en || event.name_fi},{' '}
+											<em>
+												{`${event.start_time}${event.end_time ? `→${event.end_time}` : ''}`}
+												{event.location_fi ? ` @${lang === 'fi' ? event.location_fi : event.location_en || event.location_fi}` : ''}
+											</em>{' '}
+											{event.signup ? (lang === 'fi' ? '(Ilmoittautuneille)' : '(Signed up only)') : ''}
+										</span>
+									</>
+								)
+							)}
 					</p>
 				))}
+			{eventList.length > 0 && (
+				<button
+					className={styles.copyButton}
+					onClick={copyFormattedText}>
+					Kopioi muotoiltu teksti
+				</button>
+			)}
 		</div>
 	);
 }
 
-function EventEditForm({
-	event,
-	setEventList,
-	onClose,
-}: {
-	event: EventFormData;
-	setEventList: React.Dispatch<React.SetStateAction<EventFormData[]>>;
-	onClose: () => void;
-}) {
+function EventEditForm({ event, setEventList, onClose }: { event: EventFormData; setEventList: React.Dispatch<React.SetStateAction<EventFormData[]>>; onClose: () => void }) {
 	const [formData, setFormData] = useState<EventFormData>({ ...event });
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
 		const { name, value, type } = e.target;
-		const checked = type === "checkbox" ? (e.target as HTMLInputElement).checked : undefined;
+		const checked = type === 'checkbox' ? (e.target as HTMLInputElement).checked : undefined;
 
 		setFormData((prev) => ({
 			...prev,
-			[name]: type === "checkbox" ? checked : value,
+			[name]: type === 'checkbox' ? checked : value,
 		}));
 	};
 
@@ -269,19 +280,19 @@ function EventEditForm({
 		});
 
 		// Sending event to api
-		fetch("/api/" + event.id, {
-			method: "POST",
+		fetch('/api/' + event.id, {
+			method: 'POST',
 			headers: {
-				"Content-Type": "application/json",
+				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify(formData),
 		})
 			.then((response) => response.json())
 			.then((data) => {
-				console.log("Event added:", data);
+				console.log('Event added:', data);
 			})
 			.catch((error) => {
-				console.error("Error adding event:", error);
+				console.error('Error adding event:', error);
 			});
 
 		onClose();
@@ -309,7 +320,7 @@ function EventEditForm({
 						type='text'
 						id='edit_name_en'
 						name='name_en'
-						value={formData.name_en || ""}
+						value={formData.name_en || ''}
 						onChange={handleChange}
 					/>
 				</div>
@@ -321,7 +332,7 @@ function EventEditForm({
 						type='text'
 						id='edit_location_fi'
 						name='location_fi'
-						value={formData.location_fi || ""}
+						value={formData.location_fi || ''}
 						onChange={handleChange}
 					/>
 				</div>
@@ -331,7 +342,7 @@ function EventEditForm({
 						type='text'
 						id='edit_location_en'
 						name='location_en'
-						value={formData.location_en || ""}
+						value={formData.location_en || ''}
 						onChange={handleChange}
 					/>
 				</div>
@@ -348,17 +359,7 @@ function EventEditForm({
 							<option
 								key={day}
 								value={day}>
-								{
-									[
-										"Maanantai",
-										"Tiistai",
-										"Keskiviikko",
-										"Torstai",
-										"Perjantai",
-										"Lauantai",
-										"Sunnuntai",
-									][day]
-								}
+								{['Maanantai', 'Tiistai', 'Keskiviikko', 'Torstai', 'Perjantai', 'Lauantai', 'Sunnuntai'][day]}
 							</option>
 						))}
 					</select>
@@ -382,7 +383,7 @@ function EventEditForm({
 						type='time'
 						id='edit_end_time'
 						name='end_time'
-						value={formData.end_time || ""}
+						value={formData.end_time || ''}
 						onChange={handleChange}
 					/>
 				</div>
@@ -410,13 +411,7 @@ function EventEditForm({
 	);
 }
 
-function WeekForm({
-	week,
-	setEventList,
-}: {
-	week: Date;
-	setEventList: React.Dispatch<React.SetStateAction<EventFormData[]>>;
-}) {
+function WeekForm({ week, setEventList }: { week: Date; setEventList: React.Dispatch<React.SetStateAction<EventFormData[]>> }) {
 	// Add event to local storage
 	const addEvent = (event: EventFormData) => {
 		setEventList((prevEvents) => {
@@ -425,19 +420,19 @@ function WeekForm({
 		});
 
 		// Sending event to api
-		fetch("/api", {
-			method: "POST",
+		fetch('/api', {
+			method: 'POST',
 			headers: {
-				"Content-Type": "application/json",
+				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify(event),
 		})
 			.then((response) => response.json())
 			.then((data) => {
-				console.log("Event added:", data);
+				console.log('Event added:', data);
 			})
 			.catch((error) => {
-				console.error("Error adding event:", error);
+				console.error('Error adding event:', error);
 			});
 	};
 
@@ -516,22 +511,10 @@ function WeekForm({
 							<option
 								key={day}
 								value={day}>
-								{
-									[
-										"Maanantai",
-										"Tiistai",
-										"Keskiviikko",
-										"Torstai",
-										"Perjantai",
-										"Lauantai",
-										"Sunnuntai",
-									][day]
-								}{" "}
-								{new Date(
-									week.getTime() + day * 24 * 60 * 60 * 1000
-								).toLocaleDateString("fi-FI", {
-									day: "numeric",
-									month: "numeric",
+								{['Maanantai', 'Tiistai', 'Keskiviikko', 'Torstai', 'Perjantai', 'Lauantai', 'Sunnuntai'][day]}{' '}
+								{new Date(week.getTime() + day * 24 * 60 * 60 * 1000).toLocaleDateString('fi-FI', {
+									day: 'numeric',
+									month: 'numeric',
 								})}
 							</option>
 						))}
