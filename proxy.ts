@@ -4,7 +4,7 @@ import type { NextRequest } from 'next/server';
 // Common bot user agents to block
 const BOT_USER_AGENTS = ['googlebot', 'bingbot', 'slurp', 'facebookexternalhit', 'twitterbot', 'linkedinbot', 'whatsapp', 'telegrambot', 'applebot', 'baiduspider', 'yandexbot', 'duckduckbot', 'semrushbot', 'ahrefsbot', 'mj12bot', 'dotbot', 'rogerbot', 'exabot', 'facebot', 'ia_archiver', 'archive.org_bot', 'wget', 'curl'];
 
-export function middleware(req: NextRequest) {
+export default function proxy(req: NextRequest) {
 	// Block known crawlers and bots
 	const userAgent = req.headers.get('user-agent')?.toLowerCase() || '';
 	const isBot = BOT_USER_AGENTS.some((bot) => userAgent.includes(bot));
