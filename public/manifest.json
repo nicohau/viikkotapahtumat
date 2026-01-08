@@ -1,7 +1,7 @@
 {
-  "short_name": "Story creator",
-  "name": "Story creator - Viikon tapahtumat",
-  "description": "Viikon tapahtumat is a web application that allows users to create an instagtam story with the upcoming weeks events.",
+  "short_name": "Tapahtuma masiina",
+  "name": "Tapahtuma masiina",
+  "description": "Tapahtuma masiina",
   "icons": [
     {
       "src": "/images/app_icon.png",
