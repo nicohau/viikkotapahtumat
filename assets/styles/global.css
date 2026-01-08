@@ -1,33 +1,92 @@
 @import url(./normalize.css);
-@import url(../fontawesome/css/fa_import.css);
 
+/* NEW ROOT */
 :root {
-	--brand: #3437bd;
+	/* Font sizes */
+	--font-size-base: 16px; /* Base font size */
+	--font-size-sm: 0.875rem; /* Small font size */
+	--font-size-lg: 1.125rem; /* Large font size */
+	--font-size-xl: 1.25rem; /* Extra large font size */
 
-	--error: #ff0033;
-	--warning: #ffcc00;
-	--success: #00cc66;
-	--info: #0099ff;
+	/* Line heights */
+	--line-height-base: 1.5;
+	--line-height-tight: 1.25;
 
-	--gray60: #626262;
-	--gray50: #7b7b7b;
-	--gray40: #999;
-	--gray30: #b2b2b2;
-	--gray20: #ccc;
-	--gray10: #e0e0e0;
-	--gray05: #d9d9d9;
+	/* Base colors */
+	--white: #ffffff;
+	--black: #161121;
 
-	--black: #222;
-	--white: #fff;
-	--background: #f5f5f5;
+	/* Color palette */
+	--primary: #338c26;
+	--primary-content: #c8efc2;
+	--primary-dark: #24641b;
+	--primary-light: #42b431;
+
+	--secondary: #fcc917;
+	--secondary-content: #140f00;
+	--secondary-dark: #ddad03;
+	--secondary-light: #fdd549;
+
+	--background: #edf4ec;
+	--foreground: #fafcfa;
+	--border: #d9e7d7;
+
+	--copy: #1f301d;
+	--copy-light: #53804d;
+	--copy-lighter: #77a970;
+
+	--success: #268c26;
+	--warning: #8c8c26;
+	--error: #8c2626;
+	--success-content: #c2efc2;
+	--warning-content: #000000;
+	--error-content: #efc2c2;
 }
 
 html {
-	font-size: 16px;
+	font-size: var(--font-size-base);
 }
 
 body {
 	background: var(--background);
-	color: var(--black);
-	font-family: "Manrope", sans-serif;
+	color: var(--copy);
+	font-family: var(--font-sans);
+}
+
+/* Common UI elements styling */
+p a {
+	color: var(--primary);
+	text-decoration: none;
+	transition: color 75ms ease;
+}
+
+p a:hover {
+	color: var(--primary-light);
+}
+
+::-webkit-scrollbar-track {
+	background: var(--foreground);
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--primary-content);
+	border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: var(--primary-light);
+}
+
+/* Printing */
+@media print {
+	body {
+		background: var(--white);
+		color: var(--black);
+	}
+
+	main {
+		width: 100%;
+		max-width: calc(100vw - 1rem);
+		padding: 0 0.5rem;
+	}
 }
