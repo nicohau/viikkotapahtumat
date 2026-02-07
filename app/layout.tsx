@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Nunito_Sans } from 'next/font/google';
+import { Analytics } from '@vercel/analytics/next';
 import '@/assets/styles/global.css';
 
 const nunito_sans = Nunito_Sans({
@@ -74,7 +75,10 @@ export default function RootLayout({
 					content='no-referrer'
 				/>
 			</head>
-			<body className={`${nunito_sans.className}`}>{children}</body>
+			<body className={`${nunito_sans.className}`}>
+			{children}
+			<Analytics />
+		</body>
 		</html>
 	);
 }
