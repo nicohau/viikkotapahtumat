@@ -25,7 +25,7 @@ export interface NotificationType {
 }
 
 const NOTIFICATIONS_URL = '/api/notifications';
-const NOTIFICATIONS_REFRESH_MS = 60 * 1000;
+const NOTIFICATIONS_REFRESH_MS = 5 * 60 * 1000;
 
 export default function HomePageClient({ initialNotifications }: { initialNotifications: NotificationType[] }) {
 	// Getting next monday
