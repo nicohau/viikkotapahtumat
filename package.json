@@ -9,16 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
-<<<<<<< HEAD
     "next": "^16.2.7",
     "react": "^19.2.7",
     "react-dom": "^19.2.7"
-=======
-    "@vercel/analytics": "^1.6.1",
-    "next": "^16.2.6",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
->>>>>>> ec74d5fc3b789eac8702ba6add896bc9e77b2546
   },
   "devDependencies": {
     "@types/node": "^25",
