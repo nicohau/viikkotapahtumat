@@ -1,0 +1,46 @@
+.wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+	text-align: center;
+	padding: 1rem;
+}
+
+.wrapper img {
+	width: 150px;
+	height: auto;
+	margin-bottom: 3rem;
+}
+
+.wrapper h1 {
+	font-size: 1.25rem;
+	font-weight: 700;
+	margin-bottom: 0.5rem;
+}
+
+.wrapper p {
+	font-size: 1rem;
+	color: var(--muted-foreground);
+	max-width: 32ch;
+	margin-bottom: 2rem;
+}
+
+.button {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.75rem;
+	height: 2.75rem;
+	padding: 0 1.5rem;
+	font-size: 1rem;
+	font-weight: 500;
+	background-color: var(--clr-700);
+	color: contrast-color(var(--clr-700));
+	text-decoration: none;
+	border-radius: 2rem;
+}
+
+.button i {
+	font-size: 0.9rem;
+}

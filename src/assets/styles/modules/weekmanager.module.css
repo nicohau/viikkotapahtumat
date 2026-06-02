@@ -1,8 +1,8 @@
 .card {
-	background: var(--foreground);
+	background: var(--clr-0);
+	border: 1px solid var(--border);
 	padding: 1rem;
 	border-radius: 1rem;
-	box-shadow: 0 0 0 1px #0e3f7e0f, 0 1px 1px -0.5px #2a334608, 0 2px 2px -1px #2a33460a, 0 3px 3px -1.5px #2a33460a, 0 5px 5px -2.5px #2a334608, 0 10px 10px -5px #2a334608, 0 24px 24px -8px #2a334608;
 }
 
 .weekmanager {
@@ -24,8 +24,8 @@
 }
 
 .weeklist .manage_button {
-	background: var(--secondary);
-	color: var(--secondary-content);
+	background: var(--clr-700);
+	color: contrast-color(var(--clr-700));
 	padding: 0.35rem 1rem;
 	border: none;
 	border-radius: 0.5rem;
@@ -37,8 +37,8 @@
 
 .weeklist .copyButton {
 	width: fit-content;
-	background: var(--primary);
-	color: var(--white);
+	background: var(--clr-700);
+	color: contrast-color(var(--clr-700));
 	padding: 0.35rem 1rem;
 	border: none;
 	border-radius: 0.5rem;
@@ -48,13 +48,13 @@
 }
 
 .weeklist .manage_button.delete_all {
-	background: var(--error);
-	color: var(--white);
+	background: #d63939;
+	color: contrast-color(#d63939);
 }
 
 .weeklist .deleteButton {
-	background: var(--error);
-	color: var(--white);
+	background: #d63939;
+	color: contrast-color(#d63939);
 	padding: 0.125rem 0.51rem;
 	border: none;
 	border-radius: 0.5rem;
@@ -65,8 +65,8 @@
 }
 
 .weeklist .editButton {
-	background: var(--secondary);
-	color: var(--secondary-content);
+	background: var(--clr-700);
+	color: contrast-color(var(--clr-700));
 	padding: 0.125rem 0.51rem;
 	border: none;
 	border-radius: 0.5rem;
@@ -125,8 +125,8 @@
 .event_form .form_row .form_group select {
 	height: 2.25rem;
 	padding: 0 1rem;
-	color: var(--copy);
-	background: var(--foreground);
+	color: var(--clr-900);
+	background: var(--clr-0);
 	border: 1px solid var(--border);
 	border-radius: 0.5rem;
 	font-size: 1rem;
@@ -135,8 +135,8 @@
 .event_form .form_row .form_group input:focus,
 .event_form .form_row .form_group select:focus {
 	outline: none;
-	border-color: var(--primary);
-	box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+	border-color: var(--clr-700);
+	box-shadow: 0 0 0 2px color-mix(var(--clr-700) 15%, transparent 100%);
 }
 
 .event_form .form_row .form_group input[type='checkbox'] {
@@ -147,12 +147,12 @@
 .event_form button {
 	width: 100%;
 	height: 2.5rem;
-	background: var(--primary);
-	color: var(--white);
+	background: var(--clr-700);
+	color: contrast-color(var(--clr-700));
 	border: none;
 	border-radius: 0.5rem;
 	font-size: 1rem;
-	font-weight: 600;
+	font-weight: 500;
 	cursor: pointer;
 }
 
@@ -162,7 +162,7 @@
 	gap: 1em;
 	margin-top: 1rem;
 	margin-bottom: 0.5rem;
-	background: var(--foreground);
+	background: var(--clr-0);
 	border-radius: 0.5rem;
 }
 
@@ -198,8 +198,8 @@
 .edit_form .form_row .form_group select {
 	height: 2rem;
 	padding: 0 0.75rem;
-	color: var(--copy);
-	background: var(--foreground);
+	color: var(--clr-900);
+	background: var(--clr-0);
 	border: 1px solid var(--border);
 	border-radius: 0.5rem;
 	font-size: 0.9rem;
@@ -208,8 +208,8 @@
 .edit_form .form_row .form_group input:focus,
 .edit_form .form_row .form_group select:focus {
 	outline: none;
-	border-color: var(--primary);
-	box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+	border-color: var(--clr-700);
+	box-shadow: 0 0 0 2px color-mix(var(--clr-700) 15%, transparent 100%);
 }
 
 .edit_form .form_row .form_group input[type='checkbox'] {
@@ -227,16 +227,16 @@
 .edit_form .form_buttons button {
 	width: 100%;
 	height: 2.5rem;
-	background: var(--primary);
-	color: var(--white);
+	background: var(--clr-700);
+	color: contrast-color(var(--clr-700));
 	border: none;
 	border-radius: 0.5rem;
 	font-size: 1rem;
-	font-weight: 600;
+	font-weight: 500;
 	cursor: pointer;
 }
 
 .edit_form .form_buttons button.cancel {
-	background: var(--error);
-	color: var(--white);
+	background: #d63939;
+	color: contrast-color(#d63939);
 }

@@ -63,17 +63,13 @@ npm run dev
 
 Then open [http://localhost:3000](http://localhost:3000) in your browser and you're good to go!
 
-## How the API Works
+## How Data Is Stored
 
-The app uses a simple REST API for managing events:
+The app stores events in the browser's `localStorage`.
 
-- `GET /api` - Fetch all events
-- `POST /api` - Create a new event
-- `DELETE /api` - Delete all events
-- `POST /api/[id]` - Update a specific event
-- `DELETE /api/[id]` - Delete a specific event
-
-All data is stored in a JSON file, which keeps things simple and doesn't require a database setup.
+- Data is saved automatically after every add, edit, and delete
+- Data expires automatically after 7 days
+- All storage is local to the current browser/device
 
 ## Building for Production
 
@@ -96,7 +92,7 @@ The app works great on any platform that supports Next.js - Vercel, Netlify, or 
 
 Some ideas for future versions:
 
-- Usage of a database to allow multi-user or presistent events
+- Optional cloud sync or account-based storage for multi-user support
 - Event templates for commonly repeated schedules
 - Integration with actual calendar services to import events automatically
 
